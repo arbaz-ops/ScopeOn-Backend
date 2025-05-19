@@ -38,6 +38,9 @@ const listingSchema = new mongoose.Schema({
   phone: { type: String },
   website: { type: String },
   address: { type: String },
+  city: { type: String },
+  area: { type: String },
+  postalCode: { type: String },
   businessName: { type: String },
   businessType: { type: mongoose.Schema.Types.ObjectId, ref: 'BusinessType' },
   // SEO fields

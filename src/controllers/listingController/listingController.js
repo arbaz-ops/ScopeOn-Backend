@@ -67,7 +67,7 @@ const listingController = {
   createListing: async (req, res) => {
     try {
       // Parse fields
-      const { title, description, highlights, phone, website, address, businessName } = req.body;
+      const { title, description, highlights, phone, website, address, city, area, postalCode, businessName } = req.body;
       console.log(req.body);
       console.log(req.files);
       // Parse amenities and dealOptions (sent as JSON strings)
@@ -121,6 +121,9 @@ const listingController = {
         phone,
         website,
         address,
+        city,
+        area,
+        postalCode,
         businessName,
         businessType,
         metaTitle,
@@ -148,8 +151,8 @@ const listingController = {
     try {
       const { id } = req.params;
       // Parse fields
-      const { title, description, highlights, phone, website, address, businessName } = req.body;
-console.log(req.body);
+      const { title, description, highlights, phone, website, address, city, area, postalCode, businessName } = req.body;
+      console.log(req.body);
       // Parse amenities and dealOptions (sent as JSON strings)
       let amenities = [];
       let dealOptions = [];
@@ -204,6 +207,9 @@ console.log(req.body);
       listing.phone = phone;
       listing.website = website;
       listing.address = address;
+      listing.city = city;
+      listing.area = area;
+      listing.postalCode = postalCode;
       listing.businessName = businessName;
       // Ensure businessType is set as an ObjectId (ID from frontend)
       if (req.body.businessType) {
