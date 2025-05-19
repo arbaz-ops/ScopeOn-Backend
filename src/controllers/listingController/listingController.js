@@ -325,6 +325,47 @@ const listingController = {
       res.status(500).json({ message: 'Server error' });
     }
   },
+  // Delete a review from a listing
+  deleteReview: async (req, res) => {
+    try {
+      const { listingId, reviewId } = req.params;
+      const listing = await Listing.findById(listingId);
+      if (!listing) {
+        return res.status(404).json({ message: 'Listing not found' });
+      }
+      const reviewIndex = listing.reviews.findIndex(r => r._id.toString() === reviewId);
+      if (reviewIndex === -1) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+      listing.reviews.splice(reviewIndex, 1);
+      await listing.save();
+      res.status(200).json({ message: 'Review deleted successfully' });
+    } catch (err) {
+      console.error('Error deleting review:', err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  },
+  // Update review visibility (hide/show)
+  updateReview: async (req, res) => {
+    try {
+      const { listingId, reviewId } = req.params;
+      const { isHidden } = req.body;
+      const listing = await Listing.findById(listingId);
+      if (!listing) {
+        return res.status(404).json({ message: 'Listing not found' });
+      }
+      const review = listing.reviews.id(reviewId);
+      if (!review) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+      review.isHidden = isHidden;
+      await listing.save();
+      res.status(200).json({ message: 'Review updated successfully', review: review.toObject() });
+    } catch (err) {
+      console.error('Error updating review:', err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
 };
 
 module.exports = listingController;

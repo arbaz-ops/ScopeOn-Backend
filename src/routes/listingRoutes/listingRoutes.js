@@ -23,10 +23,17 @@ router.get('/:id', listingController.getListingById);
 // Add a review to a listing
 router.post('/:id/reviews', upload.array('photoUrls', 20), listingController.addReviewToListing);
 
+// Delete a review from a listing
+router.delete('/:listingId/reviews/:reviewId', listingController.deleteReview);
+
+// Update review visibility (hide/show)
+router.patch('/:listingId/reviews/:reviewId', listingController.updateReview);
+
 // Toggle isFeature status
 router.patch('/toggle-feature/:id', listingController.toggleFeature);
 
 // Delete a listing by ID
 router.delete('/:id', listingController.deleteListing);
+
 
 module.exports = router;
